@@ -1,5 +1,5 @@
 import express from 'express'
-import prismaClient from './db/index'
+import prisma from './db/index'
 import {submissionCallback} from '@repo/common/zod'
 import { outputMapping } from './outputMapping';
 
@@ -28,7 +28,7 @@ app.put('/submission-callback', async(req, res)=>{
       console.log("logging token", parsedBody.data.token);
 
       try{
-        const testCase = await prismaClient.testCase.update({
+        const testCase = await prisma.testCase.update({
           where:{
               judge0TrackingId:parsedBody.data.token,
           },
@@ -46,7 +46,7 @@ app.put('/submission-callback', async(req, res)=>{
       });
     }
   
-    const allTestCaseData = await prismaClient.testCase.findMany({
+    const allTestCaseData = await prisma.testCase.findMany({
       where:{
           SubmissionId: testCase.SubmissionId
       }
@@ -62,7 +62,7 @@ app.put('/submission-callback', async(req, res)=>{
   
     if (pendingTestcases.length === 0) {
       const accepted = failedTestcases.length === 0;
-      const response = await prismaClient.submission.update({
+      const response = await prisma.submission.update({
         where: {
           id: testCase.SubmissionId,
         },
