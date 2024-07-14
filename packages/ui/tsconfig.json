@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": ["src", "../../apps/web/app/components/label.tsx", "../../apps/web/app/utils/submitButton.tsx", "../../apps/web/app/utils/tabs.tsx"],
   "exclude": ["node_modules", "dist"]
 }

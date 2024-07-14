@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String       @id @default(cuid())
+  email      String       @unique
+  name       String?
+  password   String
+  token     String?
+  Submission Submission[]
+  role UserRole @default(USER)
+  createdAt  DateTime @default(now())
+}
+
+model Problem {
+  id          String        @id @default(cuid())
+  tittle      String
+  description String
+  slug        String        @unique
+  hidden      Boolean       @default(true)
+  solved      Int           @default(0)
+  difficulty  Difficulty    @default(MEDIUM)
+  submissions Submission[]
+  DefaultCode DefaultCode[]
+  EditorialCode   EditorialCode[] 
+}
+
+model EditorialCode{
+  id String @id @default(cuid())
+  languageId Int
+  problemId  String
+  code       String
+  problem    Problem @relation(fields: [problemId], references: [id])
+  language   Language @relation(fields: [languageId], references: [id])
+  
+  @@unique([problemId, languageId])
+}
+
+model DefaultCode {
+  id         String   @id @default(cuid())
+  languageId Int
+  problemId  String
+  code       String
+  problem    Problem  @relation(fields: [problemId], references: [id])
+  language   Language @relation(fields: [languageId], references: [id])
+
+  @@unique([problemId, languageId])
+}
+
+model Language {
+  id          Int           @id @default(autoincrement())
+  name        String
+  judge0Id    Int           @unique
+  DefaultCode DefaultCode[]
+  Submission  Submission[]
+  Editorial   EditorialCode[]
+}
+
+model Submission {
+  id         String           @id @default(cuid())
+  problemId  String
+  userId     String
+  languageId Int
+  createdAt  DateTime         @default(now())
+  code       String
+  fullCode   String
+  status     SubmissionResult @default(PENDING)
+  testCases  TestCase[]
+  memory     Int?
+  time       Float?
+  user       User             @relation(fields: [userId], references: [id])
+  language   Language         @relation(fields: [languageId], references: [id])
+  problem    Problem          @relation(fields: [problemId], references: [id])
+}
+
+model TestCase {
+  id               String         @default(cuid())
+  status           TestCaseResult @default(PENDING)
+  index            Int
+  createdAt        DateTime       @default(now())
+  SubmissionId     String
+  submission       Submission     @relation(fields: [SubmissionId], references: [id])
+  memory           Int?
+  time             Float?
+  judge0TrackingId String         @unique
+}
+
+enum TestCaseResult {
+  AC
+  FAIL
+  TLE
+  COMPILATION_ERROR
+  PENDING
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum SubmissionResult {
+  AC
+  REJECTED
+  PENDING
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
