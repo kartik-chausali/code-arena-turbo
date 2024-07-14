@@ -1,7 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+
+import {prismaClient} from '@repo/db/src'
 
 const prismaClientSingleton = () => {
-  return new PrismaClient();
+  //return new PrismaClient();
+  return prismaClient
 };
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
