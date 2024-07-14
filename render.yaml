@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: submission-webhook
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: |
+      corepack enable;
+      corepack prepare npm@10.2.4 --activate;
+      cd apps/submission-webhook;
+      npm install --frozen-lockfile;
+      npm run build;
+    startCommand: cd apps/submission-webhook && npm start;
+    envVars:
+      - key: NODE_ENV
+        value: production
+    envVarsFromFile: .env
