@@ -4,7 +4,7 @@
         "src":"src/index.ts",
         "use":"@vercel/node",
         "config": {
-            "includeFiles": ["src/**"]
+            "includeFiles": ["apps/submission-webhook/src/**", "apps/submission-webhook/tsconfig.json", "apps/submission-webhook/package.json"]
           }
     }],
     "routes":[{
