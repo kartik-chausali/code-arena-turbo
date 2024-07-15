@@ -3,6 +3,6 @@ services:
     type: web
     env: node
     plan: free
-    buildCommand: cd apps/submission-webhook && npm install && npm run build
+    buildCommand: cd apps/submission-webhook && npm install && npm run build && npx prisma generate 
     startCommand: cd apps/submission-webhook && npm start
     branch: main
