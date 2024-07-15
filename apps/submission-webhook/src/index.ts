@@ -10,6 +10,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
 app.use(express.json());
 
 app.put('/submission-callback', async(req, res)=>{
@@ -92,4 +93,7 @@ app.get('/', (req, res)=>{
   res.send("is this running through ngrok")
 })
 
-app.listen(4000, ()=>{console.log("server started")});
+app.listen(4000, ()=>{
+  console.log("server started")
+console.log(process.cwd())
+});

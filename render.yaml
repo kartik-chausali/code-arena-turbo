@@ -5,8 +5,8 @@ services:
     plan: free
     buildCommand: 
     - npm install 
-    - cd packages/db/prisma && npm install && npm run postinstall 
-    - cd ../../../
+    - cd packages/db && npm install && npm run postinstall 
+    - cd ../../
     - cd apps/submission-webhook && npm install && npm run build && npm run postbuild
-    startCommand: cd apps/submission-webhook && npm start
+    startCommand: cd apps/submission-webhook && npm run start
     branch: main
