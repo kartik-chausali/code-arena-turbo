@@ -4,6 +4,9 @@ services:
     env: node
     plan: free
     buildCommand: 
-    - cd apps/submission-webhook && npm install && npm run build 
+    - npm install 
+    - cd packages/db/prisma && npm install && npm run postinstall 
+    - cd ../../../
+    - cd apps/submission-webhook && npm install && npm run build && npm run postbuild
     startCommand: cd apps/submission-webhook && npm start
     branch: main
