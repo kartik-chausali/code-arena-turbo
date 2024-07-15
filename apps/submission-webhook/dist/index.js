@@ -28689,6 +28689,22 @@ var require_client = __commonJS({
             "fromEnvVar": null,
             "value": "darwin-arm64",
             "native": true
+          },
+          {
+            "fromEnvVar": null,
+            "value": "debian-openssl-1.1.x"
+          },
+          {
+            "fromEnvVar": null,
+            "value": "debian-openssl-3.0.x"
+          },
+          {
+            "fromEnvVar": null,
+            "value": "linux-musl"
+          },
+          {
+            "fromEnvVar": null,
+            "value": "linux-musl-openssl-3.0.x"
           }
         ],
         "previewFeatures": []
@@ -28704,6 +28720,7 @@ var require_client = __commonJS({
         "db"
       ],
       "activeProvider": "postgresql",
+      "postinstall": false,
       "inlineDatasources": {
         "db": {
           "url": {
@@ -28712,8 +28729,8 @@ var require_client = __commonJS({
           }
         }
       },
-      "inlineSchema": '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client-js"\n}\n\ndatasource db {\n  provider = "postgresql"\n  url      = env("DATABASE_URL")\n}\n\nmodel User {\n  id         String       @id @default(cuid())\n  email      String       @unique\n  name       String?\n  password   String\n  token      String?\n  Submission Submission[]\n  role       UserRole     @default(USER)\n  createdAt  DateTime     @default(now())\n}\n\nmodel Problem {\n  id            String          @id @default(cuid())\n  tittle        String\n  description   String\n  slug          String          @unique\n  hidden        Boolean         @default(true)\n  solved        Int             @default(0)\n  difficulty    Difficulty      @default(MEDIUM)\n  submissions   Submission[]\n  DefaultCode   DefaultCode[]\n  EditorialCode EditorialCode[]\n}\n\nmodel EditorialCode {\n  id         String   @id @default(cuid())\n  languageId Int\n  problemId  String\n  code       String\n  problem    Problem  @relation(fields: [problemId], references: [id])\n  language   Language @relation(fields: [languageId], references: [id])\n\n  @@unique([problemId, languageId])\n}\n\nmodel DefaultCode {\n  id         String   @id @default(cuid())\n  languageId Int\n  problemId  String\n  code       String\n  problem    Problem  @relation(fields: [problemId], references: [id])\n  language   Language @relation(fields: [languageId], references: [id])\n\n  @@unique([problemId, languageId])\n}\n\nmodel Language {\n  id          Int             @id @default(autoincrement())\n  name        String\n  judge0Id    Int             @unique\n  DefaultCode DefaultCode[]\n  Submission  Submission[]\n  Editorial   EditorialCode[]\n}\n\nmodel Submission {\n  id         String           @id @default(cuid())\n  problemId  String\n  userId     String\n  languageId Int\n  createdAt  DateTime         @default(now())\n  code       String\n  fullCode   String\n  status     SubmissionResult @default(PENDING)\n  testCases  TestCase[]\n  memory     Int?\n  time       Float?\n  user       User             @relation(fields: [userId], references: [id])\n  language   Language         @relation(fields: [languageId], references: [id])\n  problem    Problem          @relation(fields: [problemId], references: [id])\n}\n\nmodel TestCase {\n  id               String         @default(cuid())\n  status           TestCaseResult @default(PENDING)\n  index            Int\n  createdAt        DateTime       @default(now())\n  SubmissionId     String\n  submission       Submission     @relation(fields: [SubmissionId], references: [id])\n  memory           Int?\n  time             Float?\n  judge0TrackingId String         @unique\n}\n\nenum TestCaseResult {\n  AC\n  FAIL\n  TLE\n  COMPILATION_ERROR\n  PENDING\n}\n\nenum Difficulty {\n  EASY\n  MEDIUM\n  HARD\n}\n\nenum SubmissionResult {\n  AC\n  REJECTED\n  PENDING\n}\n\nenum UserRole {\n  ADMIN\n  USER\n}\n',
-      "inlineSchemaHash": "7961db817663c08465a2800ebab924c142f27e76a467f3893788c72e181135fc",
+      "inlineSchema": '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = "prisma-client-js"\n  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "linux-musl-openssl-3.0.x"]\n}\n\ndatasource db {\n  provider = "postgresql"\n  url      = env("DATABASE_URL")\n}\n\nmodel User {\n  id         String       @id @default(cuid())\n  email      String       @unique\n  name       String?\n  password   String\n  token      String?\n  Submission Submission[]\n  role       UserRole     @default(USER)\n  createdAt  DateTime     @default(now())\n}\n\nmodel Problem {\n  id            String          @id @default(cuid())\n  tittle        String\n  description   String\n  slug          String          @unique\n  hidden        Boolean         @default(true)\n  solved        Int             @default(0)\n  difficulty    Difficulty      @default(MEDIUM)\n  submissions   Submission[]\n  DefaultCode   DefaultCode[]\n  EditorialCode EditorialCode[]\n}\n\nmodel EditorialCode {\n  id         String   @id @default(cuid())\n  languageId Int\n  problemId  String\n  code       String\n  problem    Problem  @relation(fields: [problemId], references: [id])\n  language   Language @relation(fields: [languageId], references: [id])\n\n  @@unique([problemId, languageId])\n}\n\nmodel DefaultCode {\n  id         String   @id @default(cuid())\n  languageId Int\n  problemId  String\n  code       String\n  problem    Problem  @relation(fields: [problemId], references: [id])\n  language   Language @relation(fields: [languageId], references: [id])\n\n  @@unique([problemId, languageId])\n}\n\nmodel Language {\n  id          Int             @id @default(autoincrement())\n  name        String\n  judge0Id    Int             @unique\n  DefaultCode DefaultCode[]\n  Submission  Submission[]\n  Editorial   EditorialCode[]\n}\n\nmodel Submission {\n  id         String           @id @default(cuid())\n  problemId  String\n  userId     String\n  languageId Int\n  createdAt  DateTime         @default(now())\n  code       String\n  fullCode   String\n  status     SubmissionResult @default(PENDING)\n  testCases  TestCase[]\n  memory     Int?\n  time       Float?\n  user       User             @relation(fields: [userId], references: [id])\n  language   Language         @relation(fields: [languageId], references: [id])\n  problem    Problem          @relation(fields: [problemId], references: [id])\n}\n\nmodel TestCase {\n  id               String         @default(cuid())\n  status           TestCaseResult @default(PENDING)\n  index            Int\n  createdAt        DateTime       @default(now())\n  SubmissionId     String\n  submission       Submission     @relation(fields: [SubmissionId], references: [id])\n  memory           Int?\n  time             Float?\n  judge0TrackingId String         @unique\n}\n\nenum TestCaseResult {\n  AC\n  FAIL\n  TLE\n  COMPILATION_ERROR\n  PENDING\n}\n\nenum Difficulty {\n  EASY\n  MEDIUM\n  HARD\n}\n\nenum SubmissionResult {\n  AC\n  REJECTED\n  PENDING\n}\n\nenum UserRole {\n  ADMIN\n  USER\n}\n',
+      "inlineSchemaHash": "2026fc247aa85f9c0c91480568fac6e47a9827fcd331cc2dfa4707f175fe1daf",
       "copyEngine": true
     };
     var fs2 = require("fs");
@@ -28742,6 +28759,14 @@ var require_client = __commonJS({
     Object.assign(exports2, Prisma);
     path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
     path.join(process.cwd(), "../../node_modules/.prisma/client/libquery_engine-darwin-arm64.dylib.node");
+    path.join(__dirname, "libquery_engine-debian-openssl-1.1.x.so.node");
+    path.join(process.cwd(), "../../node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node");
+    path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+    path.join(process.cwd(), "../../node_modules/.prisma/client/libquery_engine-debian-openssl-3.0.x.so.node");
+    path.join(__dirname, "libquery_engine-linux-musl.so.node");
+    path.join(process.cwd(), "../../node_modules/.prisma/client/libquery_engine-linux-musl.so.node");
+    path.join(__dirname, "libquery_engine-linux-musl-openssl-3.0.x.so.node");
+    path.join(process.cwd(), "../../node_modules/.prisma/client/libquery_engine-linux-musl-openssl-3.0.x.so.node");
     path.join(__dirname, "schema.prisma");
     path.join(process.cwd(), "../../node_modules/.prisma/client/schema.prisma");
   }
