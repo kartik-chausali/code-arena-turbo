@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "db:question": "ts-node prisma/updateQuestion.ts",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "postinstall": "npx prisma generate"
   },
   "keywords": [],
   "author": "",
