@@ -2,7 +2,7 @@ import express from 'express'
 import prismaClient from './db'
 import {submissionCallback} from '@repo/common/zod'
 import { outputMapping } from './outputMapping';
-
+const port = process.env.PORT || 4000
 const app = express();
 import cors from 'cors'
 app.use(cors({
@@ -93,7 +93,7 @@ app.get('/', (req, res)=>{
   res.send("is this running through ngrok")
 })
 
-app.listen(4000, ()=>{
-  console.log("server started")
+app.listen(port, ()=>{
+  console.log("server started at ", port);
 console.log(process.cwd())
 });
