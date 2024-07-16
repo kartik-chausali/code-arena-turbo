@@ -6,5 +6,5 @@ services:
     buildCommand: 
     - npm install 
     - cd packages/db && npm install && npm run postinstall 
-    startCommand: cd packages/db/submission-webhook && npm start
+    startCommand: cd packages/db/submission-webhook && npm install && npm start
     branch: main
