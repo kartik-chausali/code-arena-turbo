@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js",
+    "build": "tsc -b",
     "postbuild": "cp ../../node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node dist/ ",
     "start": "node dist/index.js"
   },
