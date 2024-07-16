@@ -18,3 +18,5 @@ EXPOSE 4000
 
 # Command to start both services
 CMD ["npm", "run", "dev:docker"]
+
+AWS Lamda 

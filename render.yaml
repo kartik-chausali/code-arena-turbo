@@ -1,0 +1,10 @@
+services:
+  - name: submission-webhook
+    type: web
+    env: node
+    plan: free
+    buildCommand: 
+    - npm install 
+    - cd packages/db && npm install && npm run postinstall 
+    startCommand: cd packages/db/submission-webhook && npm start
+    branch: main

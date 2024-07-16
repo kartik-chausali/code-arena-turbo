@@ -2,12 +2,12 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "CommonJS",
-    "outDir": "../../packages/db/submission-webhook/dist",
-    "rootDir": "../../packages/db/submission-webhook/src",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["../../packages/db/submission-webhook/src"]
+  "include": ["src"]
 }
